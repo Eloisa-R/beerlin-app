@@ -1,20 +1,28 @@
-<h1> {{ hello }} </h1>
+{% load staticfiles %}
 
-{% if list_beers_added %}
+<html>
+<head>
+    <title> Beerlin </title>
+    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
+</head>
 
-    <ul>
-    {% for beer in list_beers_added %}
-        <li>{{ beer.name }}</li>
-        <li>Minimum alcohol volume: {{ beer.min_alcohol }}</li>
-        <li>Maximum alcohol volume: {{ beer.max_alcohol }}</li>
-        <li>Minimum bitterness (0-100): {{ beer.min_bitter }}</li>
-        <li>Maximum bitterness (0-100): {{ beer.max_bitter }}</li>
-        <li>Description: {{ beer.description }}</li>
+<body>
+    <div>
+    <h1> {{ hello }} </h1>
+    </div>
 
-    {% endfor %}
+    <br><br>
 
-    </ul>
+    <div class="s">
+        <form method="POST">{% csrf_token %}
+        {{ form.as_p }} 
+    </div>
+    <div class="s">
+        <button type="submit" class="save btn btn-default">Search</button>
+    </div>
+    </form>
 
-{% else %}
-    <p>No beers are available.</p>
-{% endif %}
+    <br>
+    
+</body>
+</html>

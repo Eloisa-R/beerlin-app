@@ -1,0 +1,20 @@
+<h1> {{ hello }} </h1>
+
+{% if list_beers_added %}
+
+    <ul>
+    {% for beer in list_beers_added %}
+        <li>{{ beer.name }}</li>
+        <li>Minimum alcohol volume: {{ beer.min_alcohol }}</li>
+        <li>Maximum alcohol volume: {{ beer.max_alcohol }}</li>
+        <li>Minimum bitterness (0-100): {{ beer.min_bitter }}</li>
+        <li>Maximum bitterness (0-100): {{ beer.max_bitter }}</li>
+        <li>Description: {{ beer.description }}</li>
+
+    {% endfor %}
+
+    </ul>
+
+{% else %}
+    <p>No beers are available.</p>
+{% endif %}
