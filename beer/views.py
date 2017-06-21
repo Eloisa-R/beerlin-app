@@ -2,7 +2,8 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 
-from .models import Beers
+from .brewerydb_API_handling import Beer_lookup
+from .models import Beers, Styles
 from .forms import Beer_Search
 
 
@@ -12,7 +13,9 @@ def index(request):
         form.fields['beer_name'].label = 'Please enter a beer name'
         if form.is_valid():
             beer_name_input = form.cleaned_data['beer_name']
-            return redirect('beer_detail', beer_name=beer_name_input)
+            new_search = Beer_lookup()
+            response = new_search.beer(beer_name_input)
+            return redirect(response[0], response[1])
     else:
         form = Beer_Search()
         form.fields['beer_name'].label = 'Please enter a beer name'
@@ -22,9 +25,9 @@ def index(request):
 
 
 def beer_detail(request, beer_name):
-    list_beers_added = Beers.objects.all()
+    beer = Beers.objects.get(name=beer_name)
     context = {'hello': "Beer detail page",
-               'list_beers_added': list_beers_added}
+               'beer': beer}
     return render(request, 'beer/detail.html', context)
 
 
@@ -39,4 +42,14 @@ def styles(request):
 def style_detail(request, style_name):
     return HttpResponse(
         "This is the list of beers for style %s" % style_name)
+
+
+def styles_in_beer(request, beer_name):
+    return HttpResponse(
+        "These are the different styles of beer %s. Please select one" % beer_name)
+
+
+def beer_not_found(request, beer_name):
+    return HttpResponse(
+        "Sorry, I couldn't find the beer %s, please try again" % beer_name)
 # Create your views here.

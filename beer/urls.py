@@ -4,9 +4,11 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^(?P<beer_name>[A-Za-z_]+)/$', views.beer_detail, name='beer_detail'),
-    url(r'^(?P<beer_name>[A-Za-z_]+)/similar$', views.similar_beers, name='similar_beers'),
+    url(r'^(?P<beer_name>[A-Za-z_0-9 ]+)/$', views.beer_detail, name='beer_detail'),
+    url(r'^(?P<beer_name>[A-Za-z_0-9 ]+)/similar$', views.similar_beers, name='similar_beers'),
     url(r'^(styles)/$', views.styles, name='styles'),
-    url(r'^styles/(?P<style_name>[A-Za-z_]+)/$',
+    url(r'^styles/(?P<style_name>[A-Za-z_0-9 ]+)/$',
         views.style_detail, name='style_detail'),
+    url(r'^(?P<beer_name>[A-Za-z_0-9 ]+)/not_found', views.beer_not_found, name='beer_not_found'),
+    url(r'^(?P<beer_name>[A-Za-z_0-9 ]+)/different_styles', views.styles_in_beer, name='styles_in_beer')
 ]
