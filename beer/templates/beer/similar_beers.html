@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<html>
+<head>
+    <title> Beerlin </title>
+    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
+</head>
+
+<body>
+    <div>
+    <h1> {{ title }} </h1>
+    </div>
+
+    <br><br>
+
+    <div>
+    <h2> {{ text }} </h2>
+    </div>
+
+    {% if select_form %}
+
+        <ul>
+        <form method="POST">{% csrf_token %}
+        {% for item in select_form.beer_option.field.queryset  %}
+            <input type="radio" name="beer_option" value="{{item.id}}"> {{ item.beer_name }}
+            <br>
+        {% endfor %}
+        <br><br>
+        <button type="submit">Submit</button>
+        </form>
+        </ul>
+    {% else %}
+
+        <p>Ooops! We couldn't retrieve the beer list. Please try again later</p>
+
+    {% endif %}
+
+</body>
+</html>
