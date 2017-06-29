@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<html>
+<head>
+    <title> Beerlin </title>
+    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+</head>
+
+<body>
+   <h1> {{ title }} </h1>
+   <br>
+
+   {% if beers %}
+
+      {% for item in beers %}
+        <ul>
+
+        <li>{{ item.beer_name }}</li>
+        </ul>
+      {% endfor %}
+
+      <br>
+
+      {{ style_obj.description }}
+
+   {% else %}
+
+     <p>Sorry, we couldn't load the list of beers for this style</p>
+
+   {% endif %}
+</body>

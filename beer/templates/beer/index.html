@@ -4,25 +4,30 @@
 <head>
     <title> Beerlin </title>
     <link rel="stylesheet" href="{% static 'css/beer.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Molengo" rel="stylesheet">
 </head>
 
 <body>
-    <div>
+    <div class="main_header">
     <h1> {{ hello }} </h1>
     </div>
 
     <br><br>
 
     <div class="s">
-        <form method="POST">{% csrf_token %}
+        <form method="POST" class='box'>{% csrf_token %}
         {{ form.as_p }} 
     </div>
     <div class="s">
         <button type="submit">Search</button>
     </div>
     </form>
+    <br>
+    <div class="method">
+      <a href="{% url 'styles' %}"> {{ other_method }} </a>
+    </div>
 
     <br>
     
 </body>
-</html>

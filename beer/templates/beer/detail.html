@@ -1,3 +1,14 @@
+{% load staticfiles %}
+
+<html>
+
+<head>
+   <title> Beerlin </title>
+   <link rel="stylesheet" href="{% static 'css/beer.css' %}">
+   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+</head>
+
+<body>
 <h1> {{ hello }} </h1>
 
 {% if beer %}
@@ -9,7 +20,7 @@
     <li>Maximum alcohol volume: {{ beer.max_alcohol }}</li>
     <li>Minimum bitterness (0-100): {{ beer.min_bitter }}</li>
     <li>Maximum bitterness (0-100): {{ beer.max_bitter }}</li>
-    <li>Description: {{ beer.description }}</li>
+    <li>Description: {{ beer.style_id.description }}</li>
 
 
     </ul>
@@ -17,3 +28,6 @@
 {% else %}
     <p>No beers are available.</p>
 {% endif %}
+
+</body>
+</html>
