@@ -26,32 +26,32 @@ body {
 }
 
 h1 {
+	position: relative;
 	font-family: 'Roboto Mono', monospace;
+	font-size: 58px;
+	top: 100px;
+}
+
+h2{
+   position: relative;
+   top: 50px;
+
 }
 
 .main_header{
-    position: relative;
-    
+    position: relative;   
     left: 570px;
-
     top: 200px;
-
-    font-size: 67px;
-
-    width: 50%;
+    font-size: 87px;
 }
+
 .method{
 
-    position: relative;
-    
+    position: relative;  
     left: 700px;
-
     top: 200px;
-
     font-size: 22px;
-
     width: 50%;
-
     opacity: 0.6;
 
 }
@@ -68,4 +68,60 @@ a:link, a:visited {
 
 a:hover{
 	opacity: 0.3;
+}
+
+.dropbutton {
+
+	width: 70px;
+	height: 70px;
+	margin-right: 6px;
+	border: none;
+	text-align: center;
+	background: url('http://www.manujarvinen.com/~eternal/images/blogs/blender_aid/asset_library/misc/ref/55-075-50_alt-clsup.gif') no-repeat;
+	background-size:contain;
+	font-size: 20px;
+	color: #783F10;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    top: 125px;
+}
+
+.dropdown-content{
+	position: absolute;
+    display: none;
+    background-color: rgba(235, 184, 88, 0.7);
+
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    width: 300px;
+    font-size: 16px;
+}
+
+.description{
+	position: relative;
+	top: 250px;
+	max-width: 960px;
+	text-align: justify;
+	padding: 8px;
+}
+
+.beer_list {
+	position: relative;
+	top: 180px;
+
+}
+
+.beer_intro{
+	position: relative;
+	top: 170px;
+}
+
+.form_list{
+	position: relative;
+	top: 150px;
 }

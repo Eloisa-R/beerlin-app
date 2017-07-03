@@ -10,15 +10,25 @@
 <body>
    <h1> {{ title }} </h1>
    <br>
-   {% if  style_search %}
+   <h2> {{ text }} </h2>
 
-      {% for item in style_search %}
+   {% if  global_dict %}
+     
+      {% for key, value in global_dict %}
+         <div class="dropdown">
+           <button class="dropbutton"> {{ key }} </button>
+            <div class="dropdown-content">
 
-        <a href="{% url 'style_detail' style_name=item.style_name style_id=item.style_id %}">{{ item.style_name }}</a>
-        <br>
+              {% for item in value %}
+
+               <a href="{% url 'style_detail' style_name=item.1 style_id=item.0 %}"> {{ item.1 }} </a>
+               <br>
+              {% endfor %}
+            </div>
+          </div>
 
       {% endfor %}
-
+  
    {% else %}
 
      <p>Sorry, we couldn't load the styles list</p>

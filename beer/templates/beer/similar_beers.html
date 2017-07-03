@@ -19,17 +19,26 @@
     </div>
 
     {% if select_form %}
-
-        <ul>
-        <form method="POST">{% csrf_token %}
-        {% for item in select_form.beer_option.field.queryset  %}
+          <form method="POST">{% csrf_token %}
+            <table class="form_list">
+            <tr>
+            {% for index in rangeb %}
+              <th></th>
+            {% endfor %}
+             </tr>
+              <tr>
+          {% for item in select_form.beer_option.field.queryset  %}
+            <td>
             <input type="radio" name="beer_option" value="{{item.id}}"> {{ item.beer_name }}
-            <br>
-        {% endfor %}
-        <br><br>
+            </td>
+            {% if forloop.counter0|divisibleby:num_col %}
+              </tr>
+              <tr>
+            {% endif%}
+          {% endfor %}
+          </table>
         <button type="submit">Submit</button>
         </form>
-        </ul>
     {% else %}
 
         <p>Ooops! We couldn't retrieve the beer list. Please try again later</p>

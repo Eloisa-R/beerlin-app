@@ -1,10 +1,12 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
+import math
 
 from .brewerydb_API_handling import Beer_lookup
 from .models import Beers, Styles, Similar_beers, Beers_per_style
 from . import forms
+from collections import defaultdict
 
 
 def index(request):
@@ -39,32 +41,46 @@ def beer_detail(request, beer_name, style_id=None):
 
 def similar_beers(request, beer_name):
     if request.method == 'POST':
-        select_form = forms.Beer_Select(request.POST)
-        select_form.fields['beer_option'].queryset = Similar_beers.objects.filter(
+        beers = Similar_beers.objects.filter(
             common_name__iexact=beer_name)
+        num_col = math.ceil(len(beers) / 10)
+        rangeb = range(0, num_col)
+        select_form = forms.Beer_Select(request.POST)
+        select_form.fields['beer_option'].queryset = beers
         context = {'title': 'Pick the right beer',
                    'text': 'There are several beers with this name, please choose one.',
-                   'select_form': select_form}
+                   'select_form': select_form,
+                   'rangeb': rangeb,
+                   'num_col': num_col}
         if select_form.is_valid():
             selected_beer = select_form.cleaned_data['beer_option'].beer_name
             new_search = Beer_lookup()
             response = new_search.beer(selected_beer)
             return redirect(response[0], response[1])
     else:
-        select_form = forms.Beer_Select()
-        select_form.fields['beer_option'].queryset = Similar_beers.objects.filter(
+        beers = Similar_beers.objects.filter(
             common_name__iexact=beer_name)
+        num_col = math.ceil(len(beers) / 22)
+        rangeb = range(0, num_col)
+        select_form = forms.Beer_Select()
+        select_form.fields['beer_option'].queryset = beers
         context = {'title': 'Pick the right beer',
                    'text': 'There are several beers with this name, please choose one.',
-                   'select_form': select_form}
+                   'select_form': select_form,
+                   'rangeb': rangeb,
+                   'num_col': num_col}
         return render(request, 'beer/similar_beers.html', context)
 
 
 def styles(request):
+    global_dict = defaultdict(list)
     new_search = Beer_lookup()
     style_search = new_search.styles()
-    context = {'title': 'This is the list of beer styles',
-               'style_search': style_search}
+    for item in style_search:
+        global_dict[item.style_name[0]].append([item.style_id, item.style_name])
+    context = {'title': 'Beer styles',
+               'text': 'Alphabetical list of beer styles',
+               'global_dict': sorted(dict(global_dict).items())}
     return render(request, 'beer/styles.html', context)
 
 
@@ -73,9 +89,13 @@ def style_detail(request, style_name, style_id):
     new_search.style_detail(style_id, style_name)
     style_obj = Styles.objects.get(style_id__exact= style_id)
     beers = style_obj.beers_per_style_set.all()
-    context = {'title': 'Detail view for this style',
+    num_col = math.ceil(len(beers) / 15)
+    rangeb = range(0, num_col)
+    context = {'title': str(style_name),
                'beers': beers,
-               'style_obj': style_obj}
+               'style_obj': style_obj,
+               'rangeb': rangeb,
+               'num_col': num_col}
     return render(request, 'beer/style_detail.html', context)
 
 
