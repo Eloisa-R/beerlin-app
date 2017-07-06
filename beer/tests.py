@@ -1,3 +1,141 @@
 from django.test import TestCase
+from . import forms
+from django.test import Client
+from django.core.urlresolvers import reverse
+from .brewerydb_API_handling import Beer_lookup
+from django.test.utils import setup_test_environment
+from . import models
+from collections import defaultdict
 
-# Create your tests here.
+
+class FormTest(TestCase):
+
+    def test_search_is_only_valid_with_alphanum(self):
+        form = forms.Beer_Search({'beer_name': ' '})
+        self.assertFalse(form.is_valid())
+
+    def test_non_ASCII(self):
+        form = forms.Beer_Search({'beer_name': 'mahou clásica'})
+        self.assertTrue(form.is_valid())
+
+
+class ViewsTest(TestCase):
+
+    def test_index_view(self):
+        setup_test_environment()
+        client = Client()
+        response = client.get(reverse('index'))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['other_method'],
+                         'Or search per category')
+        self.assertEqual(response.context['hello'], 'beerlin')
+        self.assertTrue(response.context, 'form')
+
+    def test_beer_detail_view(self):
+        beer_name_test = 'Punk IPA'
+        setup_test_environment()
+        client = Client()
+        new_search = Beer_lookup()
+        new_search.beer(beer_name_test)
+        beer_test = models.Beers.objects.get(name__iexact=beer_name_test)
+        response = client.get(reverse('beer_detail', args=(beer_name_test,)))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['hello'], beer_name_test)
+        self.assertEqual(response.context['beer'], beer_test)
+
+    def test_beer_detail_view_with_style(self):
+        beer_name_test = 'Altbier'
+        style_test = '55'
+        setup_test_environment()
+        client = Client()
+        new_search = Beer_lookup()
+        new_search.select_by_style(beer_name_test, style_test)
+        style_obj_test = models.Styles.objects.get(style_id=style_test)
+        beer_obj_test = style_obj_test.beers_set.get(
+            name__iexact=beer_name_test)
+        response = client.get(reverse(
+            'beer_detail', args=(beer_name_test, style_test)))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['hello'], beer_name_test)
+        self.assertEqual(response.context['beer'], beer_obj_test)
+
+    def test_similar_beers_view(self):
+        test_beer_name = 'guinness'
+        setup_test_environment()
+        client = Client()
+        new_search = Beer_lookup()
+        new_search.beer(test_beer_name)
+        test_beers = models.Similar_beers.objects.filter(
+            common_name__iexact=test_beer_name)
+        test_select_form = forms.Beer_Select()
+        test_select_form.fields['beer_option'].queryset = test_beers
+        response = client.get(reverse('similar_beers', args=(test_beer_name,)))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['title'], 'Pick the right beer')
+        self.assertEqual(response.context['text'],
+            'There are several beers with this name, please choose one.')
+        self.assertQuerysetEqual(
+            response.context['select_form'].fields['beer_option'].queryset,
+            [repr(ob) for ob in test_select_form.fields['beer_option'].queryset],
+            ordered=False)
+
+    def test_styles_view(self):
+        setup_test_environment()
+        client = Client()
+        test_global_dict = defaultdict(list)
+        new_search = Beer_lookup()
+        test_style_search = new_search.styles()
+        for item in test_style_search:
+            test_global_dict[item.style_name[0]].append(
+                [item.style_id, item.style_name])
+        response = client.get(reverse('styles'))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['title'], 'Beer styles')
+        self.assertEqual(response.context['text'],
+                         'Alphabetical list of beer styles')
+        self.assertEqual(response.context['global_dict'],
+                         sorted(dict(test_global_dict).items()))
+
+    def test_style_detail_view(self):
+        test_style_name = 'Belgian-Style Dark Strong Ale'
+        test_style_id = '64'
+        setup_test_environment()
+        client = Client()
+        new_search = Beer_lookup()
+        new_search.style_detail(test_style_id, test_style_name)
+        test_style_obj = models.Styles.objects.get(style_id__exact= test_style_id)
+        test_beers = test_style_obj.beers_per_style_set.all()
+        response = client.get(reverse('style_detail', args=(test_style_name, test_style_id)))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['title'], test_style_name),
+        self.assertQuerysetEqual(response.context['beers'],
+                                [repr(ob) for ob in test_beers], ordered=False)
+        self.assertEqual(response.context['style_obj'], test_style_obj)
+
+    def test_styles_in_beer_view(self):
+        test_beer_name = 'Altbier'
+        setup_test_environment()
+        client = Client()
+        test_select_form = forms.Style_Select()
+        test_styles = models.Beers_per_style.objects.filter(
+            beer_name__iexact=test_beer_name)
+        test_select_form.fields['style_option'].queryset = test_styles
+        response = client.get(reverse('styles_in_beer', args=(test_beer_name,)))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['title'], 'Pick the right style')
+        self.assertEqual(response.context['text'],
+                        'There are several beers with this name that have different styles, please pick one.')
+        self.assertQuerysetEqual(
+            response.context['select_form'].fields['style_option'].queryset,
+            [repr(ob) for ob in test_select_form.fields['style_option'].queryset],
+            ordered=False)
+
+    def test_beer_not_found_view(self):
+        test_non_beer = 'qovoiEWV'
+        client = Client()
+        setup_test_environment()
+        response = client.get(reverse('beer_not_found', args=(test_non_beer,)))
+        self.assertIs(response.status_code, 200)
+        self.assertEqual(response.context['text'],
+            'Sorry, I couldn\'t find the beer ' + test_non_beer + ', please try again')
+        self.assertEqual(response.context['subtitle'], 'Not found')

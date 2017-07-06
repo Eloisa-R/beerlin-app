@@ -18,6 +18,15 @@ def index(request):
             new_search = Beer_lookup()
             response = new_search.beer(beer_name_input)
             return redirect(response[0], response[1])
+        else:
+            form = forms.Beer_Search()
+            form.fields['beer_name'].label = 'Please enter a beer name'
+            other_method = 'Or search per category'
+            context = {'hello': 'beerlin',
+                   'form': form,
+                   'other_method': other_method,
+                   'invalid': 'Invalid beer name. Please try again.'}
+            return render(request, 'beer/index.html', context)
     else:
         form = forms.Beer_Search()
         form.fields['beer_name'].label = 'Please enter a beer name'
@@ -31,10 +40,10 @@ def index(request):
 def beer_detail(request, beer_name, style_id=None):
     if style_id is not None:
         styles_beer = Styles.objects.get(style_id=style_id)
-        beer = styles_beer.beers_set.get(name=beer_name)
+        beer = styles_beer.beers_set.get(name__iexact=beer_name)
     else:
-        beer = Beers.objects.get(name=beer_name)
-    context = {'hello': "Beer detail page",
+        beer = Beers.objects.get(name__iexact=beer_name)
+    context = {'hello': str(beer_name),
                'beer': beer}
     return render(request, 'beer/detail.html', context)
 
@@ -43,7 +52,7 @@ def similar_beers(request, beer_name):
     if request.method == 'POST':
         beers = Similar_beers.objects.filter(
             common_name__iexact=beer_name)
-        num_col = math.ceil(len(beers) / 10)
+        num_col = math.ceil(len(beers) / 20)
         rangeb = range(0, num_col)
         select_form = forms.Beer_Select(request.POST)
         select_form.fields['beer_option'].queryset = beers
@@ -57,10 +66,24 @@ def similar_beers(request, beer_name):
             new_search = Beer_lookup()
             response = new_search.beer(selected_beer)
             return redirect(response[0], response[1])
+        else:
+            beers = Similar_beers.objects.filter(
+                common_name__iexact=beer_name)
+            num_col = math.ceil(len(beers) / 20)
+            rangeb = range(0, num_col)
+            select_form = forms.Beer_Select()
+            select_form.fields['beer_option'].queryset = beers
+            context = {'title': 'Pick the right beer',
+                   'text': 'There are several beers with this name, please choose one.',
+                   'select_form': select_form,
+                   'rangeb': rangeb,
+                   'num_col': num_col,
+                   'invalid': 'Please select an option'}
+            return render(request, 'beer/similar_beers.html', context)
     else:
         beers = Similar_beers.objects.filter(
             common_name__iexact=beer_name)
-        num_col = math.ceil(len(beers) / 22)
+        num_col = math.ceil(len(beers) / 20)
         rangeb = range(0, num_col)
         select_form = forms.Beer_Select()
         select_form.fields['beer_option'].queryset = beers
@@ -89,7 +112,7 @@ def style_detail(request, style_name, style_id):
     new_search.style_detail(style_id, style_name)
     style_obj = Styles.objects.get(style_id__exact= style_id)
     beers = style_obj.beers_per_style_set.all()
-    num_col = math.ceil(len(beers) / 15)
+    num_col = math.ceil(len(beers) / 10)
     rangeb = range(0, num_col)
     context = {'title': str(style_name),
                'beers': beers,
@@ -102,28 +125,54 @@ def style_detail(request, style_name, style_id):
 def styles_in_beer(request, beer_name):
     if request.method == 'POST':
         select_form = forms.Style_Select(request.POST)
-        select_form.fields['style_option'].queryset = Beers_per_style.objects.filter(
+        styles = Beers_per_style.objects.filter(
             beer_name__iexact=beer_name)
+        num_col = math.ceil(len(styles) / 20)
+        rangeb = range(0, num_col)
+        select_form.fields['style_option'].queryset = styles
         context = {'title': 'Pick the right style',
                    'text': 'There are several beers with this name that have different styles, please pick one.',
-                   'select_form': select_form}
+                   'select_form': select_form,
+                   'rangeb': rangeb,
+                   'num_col': num_col}
         if select_form.is_valid():
             selected_beer = select_form.cleaned_data['style_option']
             new_search = Beer_lookup()
             response = new_search.select_by_style(
                 selected_beer.beer_name, selected_beer.style_id.style_id)
             return redirect(response[0], response[1], response[2])
+        else:
+            select_form = forms.Style_Select()
+            styles = Beers_per_style.objects.filter(
+                beer_name__iexact=beer_name)
+            num_col = math.ceil(len(styles) / 20)
+            rangeb = range(0, num_col)
+            select_form.fields['style_option'].queryset = styles
+            context = {'title': 'Pick the right style',
+                   'text': 'There are several beers with this name that have different styles, please pick one.',
+                   'select_form': select_form,
+                   'rangeb': rangeb,
+                   'num_col': num_col,
+                   'invalid': 'Please select an option'}
+        return render(request, 'beer/styles_in_beer.html', context)
     else:
         select_form = forms.Style_Select()
-        select_form.fields['style_option'].queryset = Beers_per_style.objects.filter(
+        styles = Beers_per_style.objects.filter(
             beer_name__iexact=beer_name)
+        num_col = math.ceil(len(styles) / 20)
+        rangeb = range(0, num_col)
+        select_form.fields['style_option'].queryset = styles
         context = {'title': 'Pick the right style',
                    'text': 'There are several beers with this name that have different styles, please pick one.',
-                   'select_form': select_form}
+                   'select_form': select_form,
+                   'rangeb': rangeb,
+                   'num_col': num_col}
         return render(request, 'beer/styles_in_beer.html', context)
 
 
 def beer_not_found(request, beer_name):
-    return HttpResponse(
-        "Sorry, I couldn't find the beer %s, please try again" % beer_name)
+    context = {'text': 'Sorry, I couldn\'t find the beer ' + beer_name + ', please try again',
+               'subtitle': 'Not found'}
+    return render(request, 'beer/beer_not_found.html', context)
+    
 # Create your views here.

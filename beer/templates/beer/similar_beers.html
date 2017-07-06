@@ -18,6 +18,12 @@
     <h2> {{ text }} </h2>
     </div>
 
+    {% if invalid %}
+
+    <p class="invalid_beer_list"> {{ invalid }} </p>
+
+    {% endif %}
+
     {% if select_form %}
           <form method="POST">{% csrf_token %}
             <table class="form_list">
@@ -37,7 +43,8 @@
             {% endif%}
           {% endfor %}
           </table>
-        <button type="submit">Submit</button>
+        <br>
+        <button class="submit_but" type="submit">Submit</button>
         </form>
     {% else %}
 

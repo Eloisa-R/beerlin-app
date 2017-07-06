@@ -22,6 +22,11 @@
         <button type="submit">Search</button>
     </div>
     </form>
+
+    {% if invalid %}
+    <br>
+    <p class="invalid"> {{ invalid }} </p>
+    {% endif %}
     <br>
     <div class="method">
       <a href="{% url 'styles' %}"> {{ other_method }} </a>

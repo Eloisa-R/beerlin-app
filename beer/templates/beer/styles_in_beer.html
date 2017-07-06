@@ -18,18 +18,34 @@
     <h2> {{ text }} </h2>
     </div>
 
-    {% if select_form %}
+    {% if invalid %}
 
-        <ul>
-        <form method="POST">{% csrf_token %}
+    <p class="invalid_beer_list"> {{ invalid }} </p>
+
+    {% endif %}
+
+    {% if select_form %}
+          <form method="POST">{% csrf_token %}
+            <table class="form_list">
+            <tr>
+            {% for index in rangeb %}
+              <th></th>
+            {% endfor %}
+             </tr>
+              <tr>
         {% for item in select_form.style_option.field.queryset  %}
+           <td>
             <input type="radio" name="style_option" value="{{item.id}}"> {{ item.style_id.style_name }}
-            <br>
-        {% endfor %}
-        <br><br>
-        <button type="submit">Submit</button>
+            </td>
+            {% if forloop.counter0|divisibleby:num_col %}
+              </tr>
+              <tr>
+            {% endif%}
+          {% endfor %}
+          </table>
+          <br>
+        <button class="submit_but" type="submit">Submit</button>
         </form>
-        </ul>
     {% else %}
 
         <p>Ooops! We couldn't retrieve the beer list. Please try again later</p>

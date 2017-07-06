@@ -1,8 +1,12 @@
+html, body{
+    min-height:100%;
+    overflow:auto;
+}
+
 body {
 	padding-left: 15px;
-
 	background-image: url('http://www.beerbikemunich.com/demo/slider/01.jpg');
-
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
 
@@ -45,7 +49,7 @@ h2{
     font-size: 87px;
 }
 
-.method{
+.method {
 
     position: relative;  
     left: 700px;
@@ -54,6 +58,21 @@ h2{
     width: 50%;
     opacity: 0.6;
 
+}
+
+.invalid{
+	position: relative;
+	left: 690px;
+	top: 190px;
+	font-size: 22px;
+	color: red;
+}
+
+.invalid_beer_list{
+	position: relative;
+	top: 150px;
+	font-size: 22px;
+	color: red;
 }
 
 * {
@@ -105,7 +124,7 @@ a:hover{
 .description{
 	position: relative;
 	top: 250px;
-	max-width: 960px;
+	max-width: 1600px;
 	text-align: justify;
 	padding: 8px;
 }
@@ -124,4 +143,9 @@ a:hover{
 .form_list{
 	position: relative;
 	top: 150px;
+}
+
+.submit_but{
+	position: relative;
+	top: 160px;
 }
