@@ -124,9 +124,10 @@ a:hover{
 .description{
 	position: relative;
 	top: 250px;
-	max-width: 1600px;
+	max-width: 1200px;
 	text-align: justify;
 	padding: 8px;
+	font-size: 18px;
 }
 
 .beer_list {
@@ -148,4 +149,16 @@ a:hover{
 .submit_but{
 	position: relative;
 	top: 160px;
+}
+
+
+
+.bttlink{
+	border: 0px;
+	background-color: transparent;
+	font-size: 18px;
+}
+
+.bttlink:hover{
+	opacity: 0.3;
 }

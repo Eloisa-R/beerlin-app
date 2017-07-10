@@ -15,12 +15,20 @@
 
     <ul class="description">
     <li>Name: {{ beer.name }}</li>
+    <br>
     <li>Style: {{ beer.style_id.style_name }}</li>
+    <br>
     <li>Minimum alcohol volume: {{ beer.min_alcohol }}</li>
+    <br>
     <li>Maximum alcohol volume: {{ beer.max_alcohol }}</li>
+    <br>
     <li>Minimum bitterness (0-100): {{ beer.min_bitter }}</li>
+    <br>
     <li>Maximum bitterness (0-100): {{ beer.max_bitter }}</li>
+    <br>
     <li>Description: {{ beer.style_id.description }}</li>
+    <br>
+    <li>Other beers in the same style: {{ similar|join:", " }}</li>
 
 
     </ul>

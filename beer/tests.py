@@ -103,13 +103,16 @@ class ViewsTest(TestCase):
         client = Client()
         new_search = Beer_lookup()
         new_search.style_detail(test_style_id, test_style_name)
-        test_style_obj = models.Styles.objects.get(style_id__exact= test_style_id)
+        test_style_obj = models.Styles.objects.get(
+            style_id__exact=test_style_id)
         test_beers = test_style_obj.beers_per_style_set.all()
-        response = client.get(reverse('style_detail', args=(test_style_name, test_style_id)))
+        response = client.get(reverse(
+            'style_detail', args=(test_style_name, test_style_id)))
         self.assertIs(response.status_code, 200)
         self.assertEqual(response.context['title'], test_style_name),
         self.assertQuerysetEqual(response.context['beers'],
-                                [repr(ob) for ob in test_beers], ordered=False)
+                                 [repr(ob) for ob in test_beers],
+                                 ordered=False)
         self.assertEqual(response.context['style_obj'], test_style_obj)
 
     def test_styles_in_beer_view(self):
@@ -120,7 +123,8 @@ class ViewsTest(TestCase):
         test_styles = models.Beers_per_style.objects.filter(
             beer_name__iexact=test_beer_name)
         test_select_form.fields['style_option'].queryset = test_styles
-        response = client.get(reverse('styles_in_beer', args=(test_beer_name,)))
+        response = client.get(reverse(
+            'styles_in_beer', args=(test_beer_name,)))
         self.assertIs(response.status_code, 200)
         self.assertEqual(response.context['title'], 'Pick the right style')
         self.assertEqual(response.context['text'],
@@ -137,5 +141,127 @@ class ViewsTest(TestCase):
         response = client.get(reverse('beer_not_found', args=(test_non_beer,)))
         self.assertIs(response.status_code, 200)
         self.assertEqual(response.context['text'],
-            'Sorry, I couldn\'t find the beer ' + test_non_beer + ', please try again')
+                         'Sorry, I couldn\'t find the beer ' +
+                         test_non_beer + ', please try again')
         self.assertEqual(response.context['subtitle'], 'Not found')
+
+
+class API_handle_test(TestCase):
+
+    def test_beer_func_mono(self):
+        test_beer_name = 'rochefort 8'
+        test_search = Beer_lookup()
+        response = test_search.beer(test_beer_name)
+        self.assertEqual([item.lower() for item in response],
+                         ['beer_detail', test_beer_name])
+
+    def test_beer_func_not_found(self):
+        test_beer_name = 'ñascmpá'
+        test_search = Beer_lookup()
+        response = test_search.beer(test_beer_name)
+        self.assertEqual([item.lower() for item in response],
+                         ['beer_not_found', test_beer_name])
+
+    def test_beer_func_similar(self):
+        test_beer_name = 'heineken'
+        test_search = Beer_lookup()
+        response = test_search.beer(test_beer_name)
+        self.assertEqual([item.lower() for item in response],
+                         ['similar_beers', test_beer_name])
+
+    def test_beer_func_several_style(self):
+        test_beer_name = 'altbier'
+        test_search = Beer_lookup()
+        response = test_search.beer(test_beer_name)
+        self.assertEqual([item.lower() for item in response],
+                         ['styles_in_beer', test_beer_name])
+
+    def test_select_by_style(self):
+        test_beer_name = 'altbier'
+        test_style = '55'
+        test_search = Beer_lookup()
+        response_style = test_search.select_by_style(
+            test_beer_name, test_style)
+        self.assertEqual(
+            [item.lower() for item in response_style],
+            ['beer_detail', test_beer_name, test_style])
+
+    def test_select_styles(self):
+        test_search = Beer_lookup()
+        test_styles = test_search.styles()
+        self.assertFalse(test_styles == None)
+
+    def test_style_detail(self):
+        test_style_name = 'English-Style Brown Ale'
+        test_style_id = '12'
+        test_search = Beer_lookup()
+        test_search.style_detail(test_style_id, test_style_name)
+        self.assertTrue(models.Styles.objects.filter(style_id=test_style_id).exists())
+
+
+class DBtest(TestCase):
+
+    def test_no_duplicates_in_beer_per_style(self):
+        test_dict_1 = defaultdict(list)
+        test_dict_2 = defaultdict(list)
+        test_beer_name = 'Märkischer Landmann Schwarzbier'
+        test_search_1 = Beer_lookup()
+        test_search_1.beer(test_beer_name)
+        objs_in_db_1 = models.Beers_per_style.objects.all()
+        for item in objs_in_db_1:
+            test_dict_1[item.style_id.style_id].append([item.beer_name])
+        test_search_2 = Beer_lookup()
+        test_search_2.beer(test_beer_name)
+        objs_in_db_2 = models.Beers_per_style.objects.all()
+        for item in objs_in_db_2:
+            test_dict_2[item.style_id.style_id].append([item.beer_name])
+        self.assertEqual(test_dict_1, test_dict_2)
+
+    def test_no_duplicates_in_styles(self):
+        test_dict_1 = defaultdict(list)
+        test_dict_2 = defaultdict(list)
+        test_beer_name = 'Altbier'
+        test_search_1 = Beer_lookup()
+        test_search_1.beer(test_beer_name)
+        objs_in_db_1 = models.Styles.objects.all()
+        for item in objs_in_db_1:
+            test_dict_1[item.style_id].append([item.style_name])
+        test_search_2 = Beer_lookup()
+        test_search_2.beer(test_beer_name)
+        objs_in_db_2 = models.Styles.objects.all()
+        for item in objs_in_db_2:
+            test_dict_2[item.style_id].append([item.style_name])
+        self.assertEqual(test_dict_1, test_dict_2)
+
+    def test_no_duplicates_in_similar_beers(self):
+        test_dict_1 = defaultdict(list)
+        test_dict_2 = defaultdict(list)
+        test_beer_name = 'Guinness'
+        test_search_1 = Beer_lookup()
+        test_search_1.beer(test_beer_name)
+        objs_in_db_1 = models.Similar_beers.objects.all()
+        for item in objs_in_db_1:
+            test_dict_1[item.common_name].append([item.beer_name])
+        test_search_2 = Beer_lookup()
+        test_search_2.beer(test_beer_name)
+        objs_in_db_2 = models.Similar_beers.objects.all()
+        for item in objs_in_db_2:
+            test_dict_2[item.common_name].append([item.beer_name])
+        self.assertEqual(test_dict_1, test_dict_2)
+
+    def test_no_duplicates_in_beers(self):
+        test_dict_1 = defaultdict(list)
+        test_dict_2 = defaultdict(list)
+        test_beer_name_1 = 'rochefort 8'
+        test_search_1 = Beer_lookup()
+        test_search_1.beer(test_beer_name_1)
+        objs_in_db_1 = models.Beers.objects.all()
+        for item in objs_in_db_1:
+            test_dict_1[item.style_id.style_id].append([item.name])
+        test_search_2 = Beer_lookup()
+        test_beer_name_2 = 'Rochefort 8'
+        test_search_2.beer(test_beer_name_2)
+        objs_in_db_2 = models.Beers.objects.all()
+        for item in objs_in_db_2:
+            test_dict_2[item.style_id.style_id].append([item.name])
+        self.assertEqual(test_dict_1, test_dict_2)

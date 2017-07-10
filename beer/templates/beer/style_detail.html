@@ -17,24 +17,26 @@
 
    <br>
    <br>
-   <p class="beer_intro"><b>Beers in this style:</b></p>
-   <table class="beer_list">
-    <tr>
-    {% for index in rangeb %}
+   <p class="beer_intro"><b>Some beers in this style:</b></p>
+   <form action="{% url 'index' %}" method="POST">{% csrf_token %}
+     <table class="beer_list">
+      <tr>
+      {% for index in rangeb %}
 
-        <th></th>
-    {% endfor %}
-    </tr>
-    <tr>
-      {% for item in beers %}
-        <td>{{ item.beer_name }}</td>
-        {% if forloop.counter0|divisibleby:num_col %}
-          </tr>
-          <tr>
-        {% endif%}
+          <th></th>
+      {% endfor %}
+      </tr>
+      <tr>
+        {% for item in beers %}
+          <td class="td"><input type="submit" name="beer_name" value="{{ item.beer_name }}" class="bttlink"/></td>
+          {% if forloop.counter0|divisibleby:num_col %}
+            </tr>
+            <tr>
+          {% endif%}
 
-      {% endfor %}  
-  </table>
+        {% endfor %}  
+    </table>
+  </form>
    {% else %}
 
      <p>Sorry, we couldn't load the list of beers for this style</p>

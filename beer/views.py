@@ -23,9 +23,9 @@ def index(request):
             form.fields['beer_name'].label = 'Please enter a beer name'
             other_method = 'Or search per category'
             context = {'hello': 'beerlin',
-                   'form': form,
-                   'other_method': other_method,
-                   'invalid': 'Invalid beer name. Please try again.'}
+                       'form': form,
+                       'other_method': other_method,
+                       'invalid': 'Invalid beer name. Please try again.'}
             return render(request, 'beer/index.html', context)
     else:
         form = forms.Beer_Search()
@@ -41,10 +41,15 @@ def beer_detail(request, beer_name, style_id=None):
     if style_id is not None:
         styles_beer = Styles.objects.get(style_id=style_id)
         beer = styles_beer.beers_set.get(name__iexact=beer_name)
+        similar = styles_beer.beers_per_style_set.all()
     else:
         beer = Beers.objects.get(name__iexact=beer_name)
+        style_id = beer.style_id.style_id
+        style_obj = Styles.objects.get(style_id=style_id)
+        similar = style_obj.beers_per_style_set.all()
     context = {'hello': str(beer_name),
-               'beer': beer}
+               'beer': beer,
+               'similar': [item.beer_name for item in similar]}
     return render(request, 'beer/detail.html', context)
 
 
