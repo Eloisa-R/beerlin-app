@@ -47,9 +47,12 @@ def beer_detail(request, beer_name, style_id=None):
         style_id = beer.style_id.style_id
         style_obj = Styles.objects.get(style_id=style_id)
         similar = style_obj.beers_per_style_set.all()
+        similar_list = [item.beer_name for item in similar]
+        if beer.name in similar_list:
+            similar_list.remove(beer.name)
     context = {'hello': str(beer_name),
                'beer': beer,
-               'similar': [item.beer_name for item in similar]}
+               'similar': similar_list}
     return render(request, 'beer/detail.html', context)
 
 
