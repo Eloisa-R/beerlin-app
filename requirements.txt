@@ -3,5 +3,5 @@
 Django==1.10.7
 psycopg2==2.7.1
 requests
-django-storages
+storages
 boto
