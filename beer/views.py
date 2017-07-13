@@ -43,16 +43,14 @@ def beer_detail(request, beer_name, style_id=None):
         beer = styles_beer.beers_set.get(name__iexact=beer_name)
         similar = styles_beer.beers_per_style_set.all()
         similar_list = [item.beer_name for item in similar]
-        if beer.name in similar_list:
-            similar_list.remove(beer.name)
+        [similar_list.remove(item) for item in similar_list if beer.name.lower() == item.lower()]
     else:
         beer = Beers.objects.get(name__iexact=beer_name)
         style_id = beer.style_id.style_id
         style_obj = Styles.objects.get(style_id=style_id)
         similar = style_obj.beers_per_style_set.all()
         similar_list = [item.beer_name for item in similar]
-        if beer.name in similar_list:
-            similar_list.remove(beer.name)
+        [similar_list.remove(item) for item in similar_list if beer.name.lower() == item.lower()]
     context = {'hello': str(beer_name),
                'beer': beer,
                'similar': similar_list}
