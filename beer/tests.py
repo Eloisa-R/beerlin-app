@@ -6,6 +6,7 @@ from .brewerydb_API_handling import Beer_lookup
 from django.test.utils import setup_test_environment
 from . import models
 from collections import defaultdict
+import requests
 
 
 class FormTest(TestCase):
@@ -31,6 +32,28 @@ class ViewsTest(TestCase):
         self.assertEqual(response.context['hello'], 'beerlin')
         self.assertTrue(response.context, 'form')
 
+    def test_regex(self):
+        setup_test_environment()
+        client = Client()
+        test_set = set()
+        for index in range(1, 170):
+            test_beers_response = requests.get(
+            'http://api.brewerydb.com/v2/beers/?key=8734c47643731b5f03fe3e49f6eb9d8c',
+            params={'styleId': index}).json()
+            for item in test_beers_response['data']:
+                try:
+                    test_set.add(item['nameDisplay'])
+                except KeyError:
+                    pass
+
+        for item in test_set:
+            beer_name_test = item
+            try:
+                response = client.get(reverse('beer_not_found', args=(beer_name_test,)))
+            except Exception:
+                print(item)
+
+
     def test_beer_detail_view(self):
         beer_name_test = 'Punk IPA'
         setup_test_environment()
@@ -42,6 +65,7 @@ class ViewsTest(TestCase):
         self.assertIs(response.status_code, 200)
         self.assertEqual(response.context['hello'], beer_name_test)
         self.assertEqual(response.context['beer'], beer_test)
+
 
     def test_beer_detail_view_with_style(self):
         beer_name_test = 'Altbier'
