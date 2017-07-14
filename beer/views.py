@@ -9,6 +9,9 @@ from . import forms
 from collections import defaultdict
 
 
+def handler404(request):
+    return redirect('index')
+
 def index(request):
     if request.method == 'POST':
         form = forms.Beer_Search(request.POST)
