@@ -15,11 +15,9 @@
 
     <br><br>
 
-    <div class="s">
+    <div class="col-6">
         <form method="POST" class='box'>{% csrf_token %}
         {{ form.as_p }} 
-    </div>
-    <div class="s">
         <button type="submit">Search</button>
     </div>
     </form>
