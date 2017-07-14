@@ -24,9 +24,10 @@ body {
 .line{
 	display: inline-block;
 	text-decoration: none;
+	padding: 14px 16px;
 }
 
-.col-2_index {width: 16.66%;
+.col-3_index {width: 25%;
 	          position: absolute;
               left:50%;
               top: 40%;
