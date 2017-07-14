@@ -19,7 +19,6 @@
         <form method="POST" class='box'>{% csrf_token %}
         {{ form.as_p }} 
         <button type="submit">Search</button>
-    </div>
     </form>
 
     {% if invalid %}
@@ -27,7 +26,6 @@
     <p class="invalid"> {{ invalid }} </p>
     {% endif %}
     <br>
-    <div class="method">
       <a href="{% url 'styles' %}"> {{ other_method }} </a>
     </div>
 
