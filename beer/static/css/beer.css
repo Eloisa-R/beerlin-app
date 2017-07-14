@@ -14,7 +14,18 @@ body {
 
 * {
     box-sizing: border-box;
+    font-family: 'Molengo', sans-serif;
 }
+
+.col-2_index {width: 16.66%;
+              left:50%
+              top: 60%;
+              transform:translate(-50%, -50%);
+              text-align: center;
+              background: url('/css/background_txt.png') no-repeat;
+              background-size: 100% 100%;
+              border-radius: 25px;}
+
 
 .col-1 {width: 8.33%;}
 .col-2 {width: 16.66%;}
@@ -52,7 +63,8 @@ body {
 .col-12 {width: 100%;}
 
 .box {
-	opacity: 0.3;
+	opacity: 0.5;
+	display: inline-block;
 }
 
 .s {
@@ -119,10 +131,6 @@ h2{
 	top: 150px;
 	font-size: 22px;
 	color: red;
-}
-
-* {
-	font-family: 'Molengo', sans-serif;
 }
 
 a:link, a:visited {

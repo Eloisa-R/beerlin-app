@@ -14,20 +14,23 @@
 
 
     <br><br>
-
+    
+    <div class="col-2_index">
+    <ul>
+       <li><a href="{% url 'styles' %}">Category Search</a></li>
+       <li><a href="">About</a></li>
+    </ul>
+    </div>
     <div class="col-4_index">
         <form method="POST" class='box'>{% csrf_token %}
         {{ form.as_p }} 
-        <button type="submit">Search</button>
+        <button type="submit" class='box'>Search</button>
     </form>
 
     {% if invalid %}
     <br>
     <p class="invalid"> {{ invalid }} </p>
     {% endif %}
-    <br>
-      <a href="{% url 'styles' %}"> {{ other_method }} </a>
-      <br>
     </div>
 
     <br>
