@@ -21,8 +21,9 @@
    <br>
    <br>
    <p><b>Some beers in this style:</b></p>
+   <br>
    <form action="{% url 'index' %}" method="POST">{% csrf_token %}
-     <table class="beer_list">
+     <table>
       <tr>
       {% for index in rangeb %}
 
