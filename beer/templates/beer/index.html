@@ -15,7 +15,7 @@
 
     <br><br>
 
-    <div class="col-5_index">
+    <div class="col-4_index">
         <form method="POST" class='box'>{% csrf_token %}
         {{ form.as_p }} 
         <button type="submit">Search</button>
@@ -27,10 +27,6 @@
     {% endif %}
     <br>
       <a href="{% url 'styles' %}"> {{ other_method }} </a>
-      <br>
-      <br>
-      <br>
-      <br>
       <br>
     </div>
 
