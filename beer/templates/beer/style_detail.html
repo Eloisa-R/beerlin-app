@@ -15,7 +15,8 @@
 
    {% if beers %}
 
-   <p class="col-5_bdetail"> {{ style_obj.description }} </p>
+   <div class="col-5_bdetail">
+   <p> {{ style_obj.description }} </p>
 
    <br>
    <br>
@@ -39,6 +40,7 @@
         {% endfor %}  
     </table>
   </form>
+  </div>
    {% else %}
 
      <p>Sorry, we couldn't load the list of beers for this style</p>

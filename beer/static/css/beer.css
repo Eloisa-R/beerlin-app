@@ -31,6 +31,7 @@ body {
         border-radius: 25px;}
 
 .col-5_bdetail {width: 41.66%;
+	    padding: 5px;
         position: absolute;
         left: 50%;
         top: 70%;
