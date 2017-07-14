@@ -121,7 +121,7 @@ def style_detail(request, style_name, style_id):
     new_search.style_detail(style_id, style_name)
     style_obj = Styles.objects.get(style_id__exact= style_id)
     beers = style_obj.beers_per_style_set.all()
-    num_col = math.ceil(len(beers) / 10)
+    num_col = 3
     rangeb = range(0, num_col)
     context = {'title': str(style_name),
                'beers': beers,
