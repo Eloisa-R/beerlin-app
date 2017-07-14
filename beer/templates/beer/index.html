@@ -17,14 +17,14 @@
     
     <div class="col-2_index">
     <ul>
-       <li><a href="{% url 'styles' %}">Category Search</a></li>
-       <li><a href="">About</a></li>
+       <li><a href="{% url 'styles' %}" class="line">Category Search</a></li>
+       <li><a href="" class="line">About</a></li>
     </ul>
     </div>
     <div class="col-4_index">
-        <form method="POST" class='box'>{% csrf_token %}
+        <form method="POST" class="line">{% csrf_token %}
         {{ form.as_p }} 
-        <button type="submit" class='box'>Search</button>
+        <button type="submit"  class="line">Search</button>
     </form>
 
     {% if invalid %}
