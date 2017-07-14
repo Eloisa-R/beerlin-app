@@ -24,7 +24,8 @@ body {
 .line{
 	display: inline-block;
 	text-decoration: none;
-	padding: 14px 16px;
+	padding-left: 10px;
+	text-align: center;
 }
 
 .col-3_index {width: 25%;

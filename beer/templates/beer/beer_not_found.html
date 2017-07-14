@@ -11,6 +11,14 @@
 <body>
 
    <h1> {{ subtitle }} </h1>
-   <br>
-   <p class="description"> {{ text }} </p>
+    <br>
+   <div class="col-3_index">
+    <ul class="ul">
+       
+       <div class="line"><li><a href="{% url 'index' %}">Beer Search</a></li></div>
+       <div class="line"><li><a href="{% url 'styles' %}">Category Search</a></li></div>
+       <div class="line"><li><a href="">About</a></li></div>
+    </ul>
+    </div>
+   <p class="col-4_index"> {{ text }} </p>
 </body>
