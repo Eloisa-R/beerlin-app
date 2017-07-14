@@ -1,6 +1,6 @@
 html, body
 {
-  overflow: hidden;
+  overflow: auto;
   height: 100%;
   width: 100%;
 }
@@ -20,7 +20,7 @@ body {
 .col-2 {width: 16.66%;}
 .col-3 {width: 25%;}
 .col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;
+.col-5_index {width: 41.66%;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -28,7 +28,17 @@ body {
         text-align: center;
         background: url('/css/background_txt.png') no-repeat;
         background-size: 100% 100%;
-        border-radius: 25px}
+        border-radius: 25px;}
+
+.col-5_bdetail {width: 41.66%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform:translate(-50%, -50%);
+        background: url('/css/background_txt.png') no-repeat;
+        background-size: 100% 100%;
+        border-radius: 25px;
+        font-size: 16px;}
 .col-6 {width: 50%;}
 .col-7 {width: 58.33%;}
 .col-8 {width: 66.66%;}
