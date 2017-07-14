@@ -16,15 +16,16 @@
     <br><br>
     
     <div class="col-2_index">
-    <ul>
-       <li><a href="{% url 'styles' %}" class="line">Category Search</a></li>
-       <li><a href="" class="line">About</a></li>
+    <ul class="ul">
+       
+       <div class="line"><li><a href="{% url 'styles' %}">Category Search</a></li></div>
+       <div class="line"><li><a href="">About</a></li></div>
     </ul>
     </div>
     <div class="col-4_index">
-        <form method="POST" class="line">{% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit"  class="line">Search</button>
+        <div class="line"><form method="POST">{% csrf_token %}
+        {{ form.as_p }} </div>
+        <div class="line"><button type="submit">Search</button></div>
     </form>
 
     {% if invalid %}

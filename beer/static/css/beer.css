@@ -17,6 +17,10 @@ body {
     font-family: 'Molengo', sans-serif;
 }
 
+.ul{
+	 list-style-type: none;
+}
+
 .line{
 	display: inline-block;
 	text-decoration: none;
