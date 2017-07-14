@@ -19,16 +19,18 @@ body {
 
 .ul{
 	 list-style-type: none;
+	 text-align: center;
+	 font-size: 18px;
+	 text-align: left;
 }
 
 .line{
 	display: inline-block;
 	text-decoration: none;
 	padding-left: 10px;
-	text-align: center;
 }
 
-.col-3_index {width: 25%;
+.col-2_index {width: 16.66%;
 	          position: absolute;
               left:50%;
               top: 40%;

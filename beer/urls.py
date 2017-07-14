@@ -5,6 +5,7 @@ from . import views
 
 
 urlpatterns = [
+    url(r' ', views.ebindex, name='ebindex'),
     url(r'^$', views.index, name='index'),
     url(r'^(?P<beer_name>[\w0-9 \-/\(\)""&,#!@\$%\^\*\{\}\[\]:;\.,\?~\+=\'_|\\<>’–¿·ªº¡°™“”‘—\u200e\u202c]+)/(?P<style_id>[0-9]+)/detail$',
         views.beer_detail, name='beer_detail'),
