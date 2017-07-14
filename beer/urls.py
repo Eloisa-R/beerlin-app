@@ -21,4 +21,4 @@ urlpatterns = [
         views.styles_in_beer, name='styles_in_beer')
 ]
 
-handler404 = 'beer.views.handler404'
+handler404 = 'handler404'
