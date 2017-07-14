@@ -39,7 +39,8 @@ body {
         background-size: 100% 100%;
         border-radius: 25px;
         font-size: 16px;
-        overflow: auto;}
+        overflow: auto;
+        height: 50%;}
 .col-6 {width: 50%;}
 .col-7 {width: 58.33%;}
 .col-8 {width: 66.66%;}
