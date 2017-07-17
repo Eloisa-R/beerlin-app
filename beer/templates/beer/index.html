@@ -15,7 +15,7 @@
 
     <br><br>
     
-    <div class="col-2_index">
+    <div class="col-1_index">
     <ul class="ul">
        
        <div class="line"><li><a href="{% url 'styles' %}">Category Search</a></li></div>
@@ -23,10 +23,11 @@
     </ul>
     </div>
     <div class="col-4_index">
-        <div class="line"><form method="POST">{% csrf_token %}
+        <div class="boxline"><form method="POST">{% csrf_token %}
         {{ form.as_p }} </div>
-        <div class="line"><button type="submit">Search</button></div>
+        <div class="boxline"><button type="submit">Search</button></div>
     </form>
+    <br>
     <br>
     {% if invalid %}
     <br>
