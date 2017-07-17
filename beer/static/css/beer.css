@@ -52,9 +52,17 @@ body {
 	font-size: 14px;
 }
 
-.col-1_index {width: 8.33%;
+.col-1_detail {width: 8.33%;
 	          position: absolute;
               left:76%;
+              top: 50%;
+              transform:translate(-50%, -50%);
+              text-align: center;
+          }
+
+.col-1_index {width: 8.33%;
+	          position: absolute;
+              left:66%;
               top: 50%;
               transform:translate(-50%, -50%);
               text-align: center;
