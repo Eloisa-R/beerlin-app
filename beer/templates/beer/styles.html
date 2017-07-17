@@ -14,22 +14,33 @@
    <h2> {{ text }} </h2>
 
    {% if  global_dict %}
+
+
+    <div class="col-4">
      
       {% for key, value in global_dict %}
          <div class="dropdown">
-           <button class="dropbutton"> {{ key }} </button>
-            <div class="dropdown-content">
+           <a href="#{{ key }}"><button class="dropbutton"> {{ key }} </button></a>
+    </div>
+    <div id="{{ key }}" class="col-4_bdetail_hidd">
 
               {% for item in value %}
 
                <a href="{% url 'style_detail' style_name=item.1 style_id=item.0 %}"> {{ item.1 }} </a>
                <br>
               {% endfor %}
-            </div>
-          </div>
+    </div>
 
       {% endfor %}
-  
+
+  <div class="col-1_detail">
+   <ul class="ul">
+   
+   <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
+   <div class="line"><li><a href="">ABOUT</a></li></div>
+   </ul>
+   </div>
+
    {% else %}
 
      <p>Sorry, we couldn't load the styles list</p>
