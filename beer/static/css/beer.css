@@ -22,6 +22,14 @@ body {
 	 text-align: center;
 	 font-size: 18px;
 	 padding: 0px;
+	 border-color: #E56A00;
+	 border-style: solid;
+	 border-top-width: 0px;
+	 border-right-width: 1px;
+	 border-bottom-width: 1px;
+	 border-left-width: 1px;  
+	 background: url('/css/background_txt.png') no-repeat;
+     background-size: 100% 100%;
 }
 
 .boxline{
@@ -33,22 +41,24 @@ body {
 .line {
 	display: block;
 	text-decoration: none;
-	word-wrap: break-word;
-	width: min-content;
 	padding-bottom: 5px;
+	padding-top: 5px;
+	border-color: #E56A00;
+	border-style: solid;
+	border-top-width: 1px;
+	border-right-width: 0px;
+	border-left-width: 0px;
+	border-bottom-width: 0px;
+	font-size: 14px;
 }
 
 .col-1_index {width: 8.33%;
 	          position: absolute;
-              left:80%;
+              left:76%;
               top: 50%;
               transform:translate(-50%, -50%);
               text-align: center;
-              background: url('/css/background_txt.png') no-repeat;
-              background-size: 100% 100%;
-              border-style: solid;
-              border-color: #E56A00;
-              width: min-content;}
+          }
 
 
 .col-1 {width: 8.33%;}
