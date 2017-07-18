@@ -8,10 +8,6 @@ from .models import Beers, Styles, Similar_beers, Beers_per_style
 from . import forms
 from collections import defaultdict
 
-
-def handler404(request):
-    return redirect('index')
-
 def index(request):
     if request.method == 'POST':
         form = forms.Beer_Search(request.POST)
@@ -64,7 +60,7 @@ def similar_beers(request, beer_name):
     if request.method == 'POST':
         beers = Similar_beers.objects.filter(
             common_name__iexact=beer_name)
-        num_col = math.ceil(len(beers) / 20)
+        num_col = 2
         rangeb = range(0, num_col)
         select_form = forms.Beer_Select(request.POST)
         select_form.fields['beer_option'].queryset = beers
@@ -124,7 +120,7 @@ def style_detail(request, style_name, style_id):
     new_search.style_detail(style_id, style_name)
     style_obj = Styles.objects.get(style_id__exact= style_id)
     beers = style_obj.beers_per_style_set.all()
-    num_col = 3
+    num_col = 2
     rangeb = range(0, num_col)
     context = {'title': str(style_name),
                'beers': beers,
@@ -139,7 +135,7 @@ def styles_in_beer(request, beer_name):
         select_form = forms.Style_Select(request.POST)
         styles = Beers_per_style.objects.filter(
             beer_name__iexact=beer_name)
-        num_col = math.ceil(len(styles) / 20)
+        num_col = 2
         rangeb = range(0, num_col)
         select_form.fields['style_option'].queryset = styles
         context = {'title': 'Pick the right style',
@@ -187,4 +183,6 @@ def beer_not_found(request, beer_name):
                'subtitle': 'Not found'}
     return render(request, 'beer/beer_not_found.html', context)
     
-# Create your views here.
+
+def about(request):
+    return render(request, 'beer/about.html')

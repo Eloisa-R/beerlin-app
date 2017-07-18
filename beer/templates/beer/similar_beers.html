@@ -1,23 +1,17 @@
-{% load staticfiles %}
+{% extends 'beer/base.html' %}
 
-<html>
-<head>
-    <title> Beerlin </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-</head>
+{% block menu %} 
+ <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
+{% endblock %}
 
-<body>
-    <div>
-    <h1> {{ title }} </h1>
-    </div>
 
-    <br><br>
+{% block content %}
+<div class="col-5_bdetail">
+    <p> {{ title }} </p>
 
-    <div>
-    <h2> {{ text }} </h2>
-    </div>
+    <p> {{ text }} </p>
 
     {% if invalid %}
 
@@ -27,7 +21,7 @@
 
     {% if select_form %}
           <form method="POST">{% csrf_token %}
-            <table class="form_list">
+            <table>
             <tr>
             {% for index in rangeb %}
               <th></th>
@@ -45,13 +39,12 @@
           {% endfor %}
           </table>
         <br>
-        <button class="submit_but" type="submit">Submit</button>
+        <button type="submit" style="color:black">Submit</button>
         </form>
     {% else %}
 
         <p>Ooops! We couldn't retrieve the beer list. Please try again later</p>
 
     {% endif %}
-
-</body>
-</html>
+  </div>
+{% endblock %}

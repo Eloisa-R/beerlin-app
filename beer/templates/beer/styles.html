@@ -1,23 +1,20 @@
-{% load staticfiles %}
+{% extends 'beer/base.html' %}
 
-<html>
-<head>
-    <title> Beerlin </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-</head>
+{% block menu %} 
+ <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
+{% endblock %}
 
-<body>
-   <h1> {{ title }} </h1>
-   <br>
-   <h2> {{ text }} </h2>
+
+{% block content %}
+<div class="col-5_bdetail">
 
    {% if  global_dict %}
 
-
     <div class="col-4">
-     
+     <p> {{ title }} </p>
+
+      <p> {{ text }} </p>
       {% for key, value in global_dict %}
          <div class="dropdown">
            <a href="#{{ key }}"><button class="dropbutton"> {{ key }} </button></a>
@@ -33,17 +30,10 @@
 
       {% endfor %}
 
-  <div class="col-1_detail">
-   <ul class="ul">
-   
-   <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
-   <div class="line"><li><a href="">ABOUT</a></li></div>
-   </ul>
-   </div>
-
    {% else %}
 
      <p>Sorry, we couldn't load the styles list</p>
 
    {% endif %}
-</body>
+  </div>
+{% endblock %}

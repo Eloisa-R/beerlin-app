@@ -1,36 +1,24 @@
-{% load staticfiles %}
+{% extends 'beer/base.html' %}
+
+{% block menu %} 
+ <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
+{% endblock %}
 
 
-<html>
-<head>
-    <title> Beerlin </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-</head>
+{% block content %}
+<div class="col-5_bdetail">
+   <p> {{ title }} </p>
 
-<body>
-   <h1> {{ title }} </h1>
-   <br>
-
-   <div class="col-1_detail">
-    <ul class="ul">
-   
-   <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
-   <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
-   <div class="line"><li><a href="">ABOUT</a></li></div>
-   </ul>
-   </div>
 
    {% if beers %}
 
-   <div class="col-5_bdetail">
    <p> {{ style_obj.description }} </p>
 
-   <br>
-   <br>
+
    <p><b>Some beers in this style:</b></p>
-   <br>
+
    <form action="{% url 'index' %}" method="POST">{% csrf_token %}
      <table>
       <tr>
@@ -50,11 +38,11 @@
         {% endfor %}  
     </table>
   </form>
-  </div>
+  
    {% else %}
 
      <p>Sorry, we couldn't load the list of beers for this style</p>
 
    {% endif %}
-</body>
-</html>
+   </div>
+{% endblock %}

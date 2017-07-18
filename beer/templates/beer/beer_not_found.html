@@ -1,24 +1,13 @@
-{% load staticfiles %}
+{% extends 'beer/base.html' %}
 
-<html>
-<head>
-    <title> Beerlin </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-</head>
+{% block menu %} 
+ <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
+{% endblock %}
 
-<body>
-
-   <h1> {{ subtitle }} </h1>
-    <br>
-   <div class="col-1_index">
-    <ul class="ul">
-       
-       <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
-       <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
-       <div class="line"><li><a href="">ABOUT</a></li></div>
-    </ul>
-    </div>
-   <p class="col-4_index"> {{ text }} </p>
-</body>
+{% block content %}
+<div class="col-5_bdetail">
+   <p> {{ subtitle }} </p>
+   <p> {{ text }} </p>
+{% endblock %}

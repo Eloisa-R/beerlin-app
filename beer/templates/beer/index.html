@@ -1,40 +1,23 @@
-{% load staticfiles %}
+{% extends 'beer/base.html' %}
 
-<html>
-<head>
-    <title> Beerlin </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/beer.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Molengo" rel="stylesheet">
-</head>
+{% block menu %}
+<div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
+<div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
+{% endblock %}
 
-<body>
-    <h1 class="main_header"> {{ hello }} </h1>
-
-
-    <br><br>
-    
-    <div class="col-1_index">
-    <ul class="ul">
-       
-       <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
-       <div class="line"><li><a href="">ABOUT</a></li></div>
-    </ul>
-    </div>
-    <div class="col-4_index">
-        <div class="boxline"><form method="POST">{% csrf_token %}
-        {{ form.as_p }} </div>
-        <div class="boxline"><button type="submit">Search</button></div>
-    </form>
-    <br>
-    <br>
-    {% if invalid %}
-    <br>
-    <p class="invalid"> {{ invalid }} </p>
-    {% endif %}
-    </div>
-
-    <br>
-    
-</body>
+{% block content %}
+<div class="search_index">
+    {% for field in form %}
+    <div class="boxline"><form method="POST">{% csrf_token %}
+    {{ field.label_tag }}  {{ field }}</div>
+    {% endfor %}
+    <div class="boxline-s"><button type="submit" style="color:black">Search</button></div>
+</form>
+<br>
+<br>
+</div>
+{% if invalid %}
+<br>
+<p class="invalid"> {{ invalid }} </p>
+{% endif %}
+{% endblock %}
