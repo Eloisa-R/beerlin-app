@@ -18,5 +18,5 @@ url(r'^(?P<beer_name>[\w0-9 \-/\(\)""&,#!@\$%\^\*\{\}\[\]:;\.,\?~\+=\'_|\\<>’�
     views.beer_not_found, name='beer_not_found'),
 url(r'^(?P<beer_name>[\w0-9 \-/\(\)""&,#!@\$%\^\*\{\}\[\]:;\.,\?~\+=_|\\<>’–¿·ªº¡°™“”‘—\u200e\u202c]+)/different_styles$',
     views.styles_in_beer, name='styles_in_beer'),
-url(r'^/about$', views.about, name='about'),
+url(r'^about/$', views.about, name='about'),
 ]

@@ -183,6 +183,5 @@ def beer_not_found(request, beer_name):
                'subtitle': 'Not found'}
     return render(request, 'beer/beer_not_found.html', context)
     
-
 def about(request):
     return render(request, 'beer/about.html')
