@@ -29,6 +29,13 @@ input{
 	 padding: 0px;
 }
 
+.uli{
+	 list-style-type: none;
+	 text-align: left;
+	 font-size: 16px;
+	 padding: 0px;
+}
+
 .boxline{
 	display: inline-block;
 	text-decoration: none;

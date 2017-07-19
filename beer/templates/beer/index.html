@@ -7,10 +7,8 @@
 
 {% block content %}
 <div class="search_index">
-    {% for field in form %}
     <div class="boxline"><form method="POST">{% csrf_token %}
-    {{ field.label_tag }}  {{ field }}</div>
-    {% endfor %}
+    {{ form.beer_name.label_tag }}  {{ form.beer_name }}</div>
     <div class="boxline-s"><button type="submit" style="color:black">Search</button></div>
 </form>
 <br>

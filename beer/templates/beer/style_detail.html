@@ -19,7 +19,9 @@
 
    <p><b>Some beers in this style:</b></p>
 
-   <form action="{% url 'index' %}" method="POST">{% csrf_token %}
+   {% if form %}
+
+   <form method="POST">{% csrf_token %}
      <table>
       <tr>
       {% for index in rangeb %}
@@ -38,7 +40,7 @@
         {% endfor %}  
     </table>
   </form>
-  
+  {% endif %}
    {% else %}
 
      <p>Sorry, we couldn't load the list of beers for this style</p>

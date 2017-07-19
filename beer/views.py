@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
-import math
 
 from .brewerydb_API_handling import Beer_lookup
 from .models import Beers, Styles, Similar_beers, Beers_per_style
@@ -77,7 +76,7 @@ def similar_beers(request, beer_name):
         else:
             beers = Similar_beers.objects.filter(
                 common_name__iexact=beer_name)
-            num_col = math.ceil(len(beers) / 20)
+            num_col = 2
             rangeb = range(0, num_col)
             select_form = forms.Beer_Select()
             select_form.fields['beer_option'].queryset = beers
@@ -91,7 +90,7 @@ def similar_beers(request, beer_name):
     else:
         beers = Similar_beers.objects.filter(
             common_name__iexact=beer_name)
-        num_col = math.ceil(len(beers) / 20)
+        num_col = 2
         rangeb = range(0, num_col)
         select_form = forms.Beer_Select()
         select_form.fields['beer_option'].queryset = beers
@@ -116,18 +115,46 @@ def styles(request):
 
 
 def style_detail(request, style_name, style_id):
-    new_search = Beer_lookup()
-    new_search.style_detail(style_id, style_name)
-    style_obj = Styles.objects.get(style_id__exact= style_id)
-    beers = style_obj.beers_per_style_set.all()
-    num_col = 2
-    rangeb = range(0, num_col)
-    context = {'title': str(style_name),
-               'beers': beers,
-               'style_obj': style_obj,
-               'rangeb': rangeb,
-               'num_col': num_col}
-    return render(request, 'beer/style_detail.html', context)
+    if request.method == 'POST':
+        form = forms.Beer_Search(request.POST)
+        form.fields['beer_name'].label = ''
+        if form.is_valid():
+            beer_name_input = form.cleaned_data['beer_name']
+            new_search = Beer_lookup()
+            response = new_search.select_by_style(beer_name_input, style_id)
+            return redirect(response[0], response[1], response[2])
+        else:
+            form = forms.Beer_Search()
+            form.fields['beer_name'].label = ''
+            new_search = Beer_lookup()
+            new_search.style_detail(style_id, style_name)
+            style_obj = Styles.objects.get(style_id__exact=style_id)
+            beers = style_obj.beers_per_style_set.all()
+            num_col = 2
+            rangeb = range(0, num_col)
+            context = {'title': str(style_name),
+                       'beers': beers,
+                       'style_obj': style_obj,
+                       'rangeb': rangeb,
+                       'num_col': num_col,
+                       'form': form}
+            return render(request, 'beer/style_detail.html', context)
+    else:
+        form = forms.Beer_Search()
+        form.fields['beer_name'].label = ''
+        new_search = Beer_lookup()
+        new_search.style_detail(style_id, style_name)
+        style_obj = Styles.objects.get(style_id__exact=style_id)
+        beers = style_obj.beers_per_style_set.all()
+        num_col = 2
+        rangeb = range(0, num_col)
+        context = {'title': str(style_name),
+                   'beers': beers,
+                   'style_obj': style_obj,
+                   'rangeb': rangeb,
+                   'num_col': num_col,
+                   'form': form}
+        return render(request, 'beer/style_detail.html', context)
 
 
 def styles_in_beer(request, beer_name):
@@ -153,7 +180,7 @@ def styles_in_beer(request, beer_name):
             select_form = forms.Style_Select()
             styles = Beers_per_style.objects.filter(
                 beer_name__iexact=beer_name)
-            num_col = math.ceil(len(styles) / 20)
+            num_col = 2
             rangeb = range(0, num_col)
             select_form.fields['style_option'].queryset = styles
             context = {'title': 'Pick the right style',
@@ -167,7 +194,7 @@ def styles_in_beer(request, beer_name):
         select_form = forms.Style_Select()
         styles = Beers_per_style.objects.filter(
             beer_name__iexact=beer_name)
-        num_col = math.ceil(len(styles) / 20)
+        num_col = 2
         rangeb = range(0, num_col)
         select_form.fields['style_option'].queryset = styles
         context = {'title': 'Pick the right style',
@@ -182,6 +209,10 @@ def beer_not_found(request, beer_name):
     context = {'text': 'Sorry, I couldn\'t find the beer ' + beer_name + ', please try again',
                'subtitle': 'Not found'}
     return render(request, 'beer/beer_not_found.html', context)
-    
+
+
 def about(request):
-    return render(request, 'beer/about.html')
+    hello = 'Hello there!'
+    text = "I am a translator who is learning programming in python. This is my first webapp with Django, it uses the BreweryDB API to extract information about beers.\nYou can find the github repository here."
+    context = {'hello': hello, 'text': text}
+    return render(request, 'beer/about.html', context)
