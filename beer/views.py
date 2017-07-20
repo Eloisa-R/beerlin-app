@@ -3,9 +3,10 @@ from django.template import loader
 from django.shortcuts import render, redirect
 
 from .brewerydb_API_handling import Beer_lookup
-from .models import Beers, Styles, Similar_beers, Beers_per_style
+from .models import Beers, Styles, Similar_beers, Beers_per_style, Breweries
 from . import forms
 from collections import defaultdict
+from beerlin import base_settings
 
 def index(request):
     if request.method == 'POST':
@@ -216,3 +217,21 @@ def about(request):
     text = "I am a translator who is learning programming in python. This is my first webapp with Django, it uses the BreweryDB API to extract information about beers.\nYou can find the github repository here."
     context = {'hello': hello, 'text': text}
     return render(request, 'beer/about.html', context)
+
+
+def breweries(request):
+    new_search = Beer_lookup()
+    new_search.get_breweries()
+    breweries_queryset = Breweries.objects.all()
+    title = 'Breweries in Berlin'
+    text = 'This is a list of the breweries in the Berlin region. Click on the names to find out more about them.'
+    context = {'breweries': breweries_queryset, 'title': title, 'text': text}
+    return render(request, 'beer/breweries.html', context)
+
+
+def breweries_detail(request, brewery_name):
+    brewery_obj = Breweries.objects.get(name__iexact=brewery_name)
+    map_text = 'Here you can find the brewery:'
+    context = {'brewery': brewery_obj, 'map_text': map_text,
+    'gkey': base_settings.google_API_value}
+    return render(request, 'beer/breweries_detail.html', context)

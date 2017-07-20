@@ -1,0 +1,43 @@
+{% extends 'beer/base.html' %}
+
+
+{% block menu %} 
+ <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'breweries' %}">BERLIN BREWERIES</a></li></div>
+ <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
+ <div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
+{% endblock %}
+
+{% block content %}
+{% if brewery %}
+  <div class="col-5_bdetail">
+    <ul class='uli'>
+    <br>
+    <li>Name: {{ brewery.name }}</li>
+    <br>
+    <li>Type of buildling: {{ brewery.location_type }}</li>
+    <br>
+    <li>Type of beer manufactured: {{ brewery.brand_classification }}</li>
+    <br>
+    <li>Website: <a href="{{ brewery.website }}">{{ brewery.website }}</a></li>
+    <br>
+    {% if brewery.is_organic == 'Y'%}
+        <li>Manufactures organic products?: Yes</li>
+    {% else %}
+        <li>Manufactures organic products?: No</li>
+    {% endif %}
+    <br>
+    <li>Address: {{ brewery.address }}</li>
+    </ul>
+<br>
+<iframe
+  width="600"
+  height="450"
+  frameborder="0" style="border:0"
+  src="https:///www.google.com/maps/embed/v1/place?key={{ gkey }}&q={{ brewery.latitude}}, {{brewery.longitude}}&zoom=18&maptype=satellite" allowfullscreen>
+</iframe>
+{% else %}
+    <p>Sorry, we can't display the brewery information at the moment</p>
+{% endif %}
+</div>
+{% endblock %}

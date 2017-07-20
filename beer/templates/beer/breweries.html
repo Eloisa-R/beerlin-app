@@ -1,14 +1,33 @@
 {% extends 'beer/base.html' %}
 
+
 {% block menu %} 
  <div class="line"><li><a href="{% url 'index' %}">BEER SEARCH</a></li></div>
-  <div class="line"><li><a href="{% url 'breweries' %}">BERLIN BREWERIES</a></li></div>
  <div class="line"><li><a href="{% url 'styles' %}">CATEGORY SEARCH</a></li></div>
  <div class="line"><li><a href="{% url 'about' %}">ABOUT</a></li></div>
 {% endblock %}
 
 {% block content %}
 <div class="col-5_bdetail">
-   <p> {{ subtitle }} </p>
-   <p> {{ text }} </p>
+
+<p>{{ title }}</p>
+
+<p>{{ text }}</p>
+
+{% if breweries %}
+     <ul class='uli'>
+    <br>
+
+  {% for item in breweries %}
+
+   <li><a href="{% url 'breweries_detail' item.name %}">{{ item.name }}</a></li>
+   <br>
+
+   {% endfor %}
+
+
+{% else %}
+<p>Sorry, we can't display the Berlin breweris at this moment</p>
+{% endif %}
+</div>
 {% endblock %}

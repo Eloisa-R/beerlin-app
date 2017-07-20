@@ -25,4 +25,14 @@ class Beers_per_style(models.Model):
 class Similar_beers(models.Model):
     common_name = models.CharField(max_length=200)
     beer_name = models.CharField(max_length=200)
-# Create your models here.
+
+
+class Breweries(models.Model):
+    name = models.CharField(max_length=200)
+    location_type = models.CharField(max_length=200)
+    brand_classification = models.CharField(max_length=200)
+    website = models.CharField(max_length=200)
+    is_organic = models.CharField(max_length=1)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    address = models.CharField(max_length=200, default='not available yet')

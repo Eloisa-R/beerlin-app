@@ -19,4 +19,6 @@ url(r'^(?P<beer_name>[\w0-9 \-/\(\)""&,#!@\$%\^\*\{\}\[\]:;\.,\?~\+=\'_|\\<>’�
 url(r'^(?P<beer_name>[\w0-9 \-/\(\)""&,#!@\$%\^\*\{\}\[\]:;\.,\?~\+=_|\\<>’–¿·ªº¡°™“”‘—\u200e\u202c]+)/different_styles$',
     views.styles_in_beer, name='styles_in_beer'),
 url(r'^about/$', views.about, name='about'),
+url(r'^breweries/$', views.breweries, name='breweries'),
+url(r'^breweries/(?P<brewery_name>[\w0-9 \-/\(\)""&,#!@\$%\^\*\{\}\[\]:;\.,\?~\+=_|\\<>’–¿·ªº¡°™“”‘—\u200e\u202c]+)$', views.breweries_detail, name='breweries_detail'),
 ]
