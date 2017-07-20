@@ -19,7 +19,11 @@
     <br>
     <li>Type of beer manufactured: {{ brewery.brand_classification }}</li>
     <br>
+    {% if brewery.website == 'not found' %}
+    <li>Website: Not available</li>
+    {% else%}
     <li>Website: <a href="{{ brewery.website }}">{{ brewery.website }}</a></li>
+    {% endif %}
     <br>
     {% if brewery.is_organic == 'Y'%}
         <li>Manufactures organic products?: Yes</li>
