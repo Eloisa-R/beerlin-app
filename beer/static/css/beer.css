@@ -69,8 +69,8 @@ input{
     position: absolute;   
     left: 60%;
     top: 82%;
-    font-size: 87px;
     transform:translate(-50%, -50%);
+    font-family: 'Roboto Mono';
 }
 .search_index {width:70%;
         position: absolute;
@@ -98,23 +98,6 @@ input{
         overflow: auto;
         height:35%;}
 
-.col-1_styles {width: 8.33%;
-	          position: absolute;
-              left:60%;
-              top: 50%;
-              transform:translate(-50%, -50%);
-              text-align: center;
-          }
-
-.col-1_detail {width: 8.33%;
-	          position: absolute;
-              left:76%;
-              top: 60%;
-              transform:translate(-50%, -50%);
-              text-align: center;
-          }
-
-
 
 .col-1 {width: 8.33%;}
 .col-2 {width: 16.66%;}
@@ -138,7 +121,8 @@ input{
               left: 50%;
               transform:translate(-50%, -50%);
               background: url('/css/bck-beerlin.png') no-repeat;
-              background-size: 100% 100%;}
+              background-size: 100% 100%;
+              font-size: 2.75vw;}
 
 .col-7 {width: 58.33%;
 	    min-height: 100vh;
@@ -148,24 +132,6 @@ input{
         background-color: black;
         top: 50%;
         overflow: visible}
-
-.box {
-	opacity: 0.5;
-	display: inline-block;
-}
-
-
-h1 {
-	position: relative;
-	font-family: 'Roboto Mono', monospace;
-	font-size: 58px;
-	top: 100px;
-}
-
-h2{
-   position: relative;
-   top: 50px;
-}
 
 
 .invalid_beer_list{
@@ -228,11 +194,6 @@ a:hover{
 	text-align: justify;
 	padding: 8px;
 	font-size: 18px;
-}
-
-.beer_intro{
-	position: relative;
-	top: 170px;
 }
 
 .bttlink{

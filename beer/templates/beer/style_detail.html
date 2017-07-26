@@ -32,7 +32,7 @@
       </tr>
       <tr>
         {% for item in beers %}
-          <td class="td"><input type="submit" name="beer_name" value="{{ item.beer_name }}" class="bttlink"/></td>
+          <td><input type="submit" name="beer_name" value="{{ item.beer_name }}" class="bttlink"/></td>
           {% if forloop.counter0|divisibleby:num_col %}
             </tr>
             <tr>
