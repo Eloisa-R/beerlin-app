@@ -1,5 +1,3 @@
-from django.http import HttpResponse
-from django.template import loader
 from django.shortcuts import render, redirect
 
 from .brewerydb_API_handling import Beer_lookup
@@ -214,7 +212,19 @@ def beer_not_found(request, beer_name):
 
 def about(request):
     hello = 'Hello there!'
-    text = "I am a translator who is learning programming in python. This is my first webapp with Django, it uses the BreweryDB API to extract information about beers.\nYou can find the github repository here."
+    text = 'The Beerlin project revolves around two great things ' \
+    'that work great together: beer and the city of Berlin.' \
+    'In the section “Beer search” you can find out about the ' \
+    'characteristics of an specific beer by entering its name—especially ' \
+    'useful if you are at a restaurant or bar and want to ' \
+    'find out more about the beer you see in the menu. If you don’t ' \
+    'have an specific name at hand and want to find beers ' \
+    'you might like, the “Category search” section shows ' \
+    'different styles of beer, the description for each of ' \
+    'them and some beer names for that category. Finally, ' \
+    'the “Berlin breweries” section shows a list of breweries ' \
+    'in the region of Berlin, a bit of information about them ' \
+    '(website, type of beer produced, etc.) and their location on a map.'
     context = {'hello': hello, 'text': text}
     return render(request, 'beer/about.html', context)
 
