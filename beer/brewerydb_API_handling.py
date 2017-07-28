@@ -1,5 +1,6 @@
 import requests
 import collections
+
 from .models import Similar_beers, Beers_per_style, Beers, Styles, Breweries
 from beerlin.base_settings import API_key_value
 
@@ -25,7 +26,8 @@ class BeerLookup:
          ('Min_Bitterness', [0, 'style', 'ibuMin']),
          ('Max_Bitterness', [0, 'style', 'ibuMax']),
          ('Description', ['not found', 'style', 'description']),
-         ('Name_display', ['not found', 'nameDisplay'])])
+         ('Name_display', ['not found', 'nameDisplay'])]
+    )
 
     breweries_json = collections.OrderedDict(
         [('Name', ['not found', 'brewery', 'name']),
@@ -36,7 +38,8 @@ class BeerLookup:
          ('Is_organic', ['N', 'brewery', 'isOrganic']),
          ('Longitude', [0.000000, 'longitude']),
          ('Latitude', [0.000000, 'latitude']),
-         ('Address', ['not available yet', 'streetAddress'])])
+         ('Address', ['not available yet', 'streetAddress'])]
+    )
 
     breweries_dict = {}
 

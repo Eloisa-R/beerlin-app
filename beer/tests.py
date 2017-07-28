@@ -1,13 +1,14 @@
+import requests
 from django.test import TestCase
-from . import forms
 from django.test import Client
 from django.core.urlresolvers import reverse
-from .brewerydb_API_handling import BeerLookup
 from django.test.utils import setup_test_environment
-from . import models
 from collections import defaultdict
-import requests
+
+from . import models
+from . import forms
 from beerlin.base_settings import API_key_value
+from .brewerydb_API_handling import BeerLookup
 
 
 class FormTest(TestCase):

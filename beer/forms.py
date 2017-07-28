@@ -1,7 +1,8 @@
 import re
 from django import forms
-from .models import Similar_beers, Beers_per_style
 from django.core.exceptions import ValidationError
+
+from .models import Similar_beers, Beers_per_style
 
 
 def validate_search_input(value):

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
+from collections import defaultdict
 
+from beerlin import base_settings
 from .brewerydb_API_handling import BeerLookup
 from .models import Beers, Styles, Similar_beers, Beers_per_style, Breweries
 from . import forms
-from collections import defaultdict
-from beerlin import base_settings
 
 
 def index(request):
@@ -23,7 +23,8 @@ def index(request):
             context = {'hello': 'beerlin',
                        'form': form,
                        'other_method': other_method,
-                       'invalid': 'Invalid beer name. Please try again.'}
+                       'invalid': 'Invalid beer name. Please try again.'
+                       }
             return render(request, 'beer/index.html', context)
     else:
         form = forms.Beer_Search()
@@ -31,7 +32,8 @@ def index(request):
         other_method = 'Or search per category'
         context = {'hello': 'beerlin',
                    'form': form,
-                   'other_method': other_method}
+                   'other_method': other_method
+                   }
         return render(request, 'beer/index.html', context)
 
 
@@ -54,7 +56,8 @@ def beer_detail(request, beer_name, style_id=None):
          for item in similar_list if beer.name.lower() == item.lower()]
     context = {'hello': str(beer_name),
                'beer': beer,
-               'similar': similar_list}
+               'similar': similar_list
+               }
     return render(request, 'beer/detail.html', context)
 
 
@@ -71,7 +74,8 @@ def similar_beers(request, beer_name):
                    please choose one.',
                    'select_form': select_form,
                    'rangeb': rangeb,
-                   'num_col': num_col}
+                   'num_col': num_col
+                   }
         if select_form.is_valid():
             selected_beer = select_form.cleaned_data['beer_option'].beer_name
             new_search = BeerLookup()
@@ -90,7 +94,8 @@ def similar_beers(request, beer_name):
                        'select_form': select_form,
                        'rangeb': rangeb,
                        'num_col': num_col,
-                       'invalid': 'Please select an option'}
+                       'invalid': 'Please select an option'
+                       }
             return render(request, 'beer/similar_beers.html', context)
     else:
         beers = Similar_beers.objects.filter(
@@ -104,7 +109,8 @@ def similar_beers(request, beer_name):
                    with this name, please choose one.',
                    'select_form': select_form,
                    'rangeb': rangeb,
-                   'num_col': num_col}
+                   'num_col': num_col
+                   }
         return render(request, 'beer/similar_beers.html', context)
 
 
@@ -117,7 +123,8 @@ def styles(request):
                    [item.style_id, item.style_name])
     context = {'title': 'Beer styles',
                'text': 'Alphabetical list of beer styles',
-               'global_dict': sorted(dict(global_dict).items())}
+               'global_dict': sorted(dict(global_dict).items())
+               }
     return render(request, 'beer/styles.html', context)
 
 
@@ -144,7 +151,8 @@ def style_detail(request, style_name, style_id):
                        'style_obj': style_obj,
                        'rangeb': rangeb,
                        'num_col': num_col,
-                       'form': form}
+                       'form': form
+                       }
             return render(request, 'beer/style_detail.html', context)
     else:
         form = forms.Beer_Search()
@@ -160,7 +168,8 @@ def style_detail(request, style_name, style_id):
                    'style_obj': style_obj,
                    'rangeb': rangeb,
                    'num_col': num_col,
-                   'form': form}
+                   'form': form
+                   }
         return render(request, 'beer/style_detail.html', context)
 
 
@@ -177,7 +186,8 @@ def styles_in_beer(request, beer_name):
                     this name that have different styles, please pick one.',
                    'select_form': select_form,
                    'rangeb': rangeb,
-                   'num_col': num_col}
+                   'num_col': num_col
+                   }
         if select_form.is_valid():
             selected_beer = select_form.cleaned_data['style_option']
             new_search = BeerLookup()
@@ -197,7 +207,8 @@ def styles_in_beer(request, beer_name):
                        'select_form': select_form,
                        'rangeb': rangeb,
                        'num_col': num_col,
-                       'invalid': 'Please select an option'}
+                       'invalid': 'Please select an option'
+                       }
         return render(request, 'beer/styles_in_beer.html', context)
     else:
         select_form = forms.Style_Select()
@@ -211,7 +222,8 @@ def styles_in_beer(request, beer_name):
                     this name that have different styles, please pick one.',
                    'select_form': select_form,
                    'rangeb': rangeb,
-                   'num_col': num_col}
+                   'num_col': num_col
+                   }
         return render(request, 'beer/styles_in_beer.html', context)
 
 
