@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from .base_settings import *
+from . import base_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY_value
+SECRET_KEY = base_settings.SECRET_KEY_value
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -95,9 +95,9 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': NAME_value,
-            'USER': USER_value,
-            'PASSWORD': PASSWORD_value,
+            'NAME': base_settings.NAME_value,
+            'USER': base_settings.USER_value,
+            'PASSWORD': base_settings.PASSWORD_value,
             'HOST': 'localhost',
             'PORT': '',
         }
@@ -144,9 +144,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME_value
-AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID_value
-AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY_value
+AWS_STORAGE_BUCKET_NAME = base_settings.AWS_STORAGE_BUCKET_NAME_value
+AWS_ACCESS_KEY_ID = base_settings.AWS_ACCESS_KEY_ID_value
+AWS_SECRET_ACCESS_KEY = base_settings.AWS_SECRET_ACCESS_KEY_value
 AWS_S3_HOST = 's3.eu-central-1.amazonaws.com'
 
 ''' Tell django-storages that when coming up with the URL for an item \
